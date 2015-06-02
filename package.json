@@ -1,0 +1,8 @@
+{
+	"name":"calendar_test",
+	"version":"0.0.1",
+	"description":"Testing the calendar control!!",
+	"dependencies":{
+		"mime":"~1.2.7"
+	}
+}
