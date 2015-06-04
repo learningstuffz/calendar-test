@@ -43,6 +43,23 @@
             $('#txtDates').datepicker({ autoSize: true });
             initialize();
         });
+var calendarRefresh=function(){
+    var eventsData = [];
+            if (typeof (Storage) !== "undefined") {
+                eventsData = JSON.parse(localStorage.getItem("details"));
+                if (eventsData == null) {
+                    eventsData = [];
+                }
+                else if (eventsData.length == undefined) {
+                    eventsData = [eventsData];
+                }
+            }
+            else {
+                //sorry storage not supported
+            }
+            $('#calendar').fullCalendar( 'removeEvents');
+            $('#calendar').fullCalendar( 'addEventSource', eventsData)
+};
         function callingAjax(t, u, s, e) {
             $.ajax({
                 type: t,
@@ -91,10 +108,13 @@
                         };
                         localStorage.setItem("details", JSON.stringify(obj));
                     }
+                    calendarRefresh();
+
                 } else {
                     alert('Sorry it seems there is no local storage supported in your browser!!');
 
                 }
+
             });
         };
         var getDate = function (dt) {
