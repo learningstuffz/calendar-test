@@ -2,6 +2,8 @@ var http=require('http');
 var fs=require('fs');
 var path=require('path');
 var mime = require('mime');
+var express = require('express');
+var app = express();
 //Stores the cached files
 var cache = {};
 var startPath = 'pages'; 
@@ -50,7 +52,7 @@ function serveStatic(response,cache,absPath){
 
 }
 
-var server = http.createServer(function (request, response) {
+app.all('*',function (request, response) {
     if (request.url == '/') {
         filepath = startPath + '/CalendarWelcome.html';
     }
@@ -61,7 +63,9 @@ var server = http.createServer(function (request, response) {
     serveStatic(response, cache, absPath);
 //    console.log(request.connection.remoteAddress);
 });
-var port=40400;
-server.listen(port,function(){
-	console.log("Server for Calendar listening at "+port.toString());
+
+app.set('port', (process.env.PORT || 5000));
+app.use(express.static(__dirname + '/public'));
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
 });
