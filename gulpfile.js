@@ -1,11 +1,13 @@
 /* File: gulpfile.js */
 
 // grab our gulp packages
-var gulp      = require('gulp'),
-    jshint    = require('gulp-jshint'),
-    sass      = require('gulp-sass'),
-    sourcemaps= require('gulp-sourcemaps'),
-    gutil     = require('gulp-util');
+var gulp        = require('gulp'),
+    jshint      = require('gulp-jshint'),
+    sass        = require('gulp-sass'),
+    sourcemaps  = require('gulp-sourcemaps'),
+    concat      = require('gulp-concat'),
+    uglify      = require('gulp-uglify'),
+    gutil       = require('gulp-util');
 
 /*Constants*/
 var srcSass  =  'src/custom/scss/**/*.scss',
@@ -15,8 +17,6 @@ var srcSass  =  'src/custom/scss/**/*.scss',
     pbJS     =  'public/js'
     pbHTML   =  'public'
     ;
-// create a default task and just log a message
-gulp.task('default',['jshint','watch']);
 
 //Copy html to public folder
 gulp.task('copyHtml', function() {
@@ -57,12 +57,17 @@ gulp.task('build-js', function(){
 
 
 //configure which files to watch and what tasks to run on change
-gulp.task('watch',function(){
-  gulp.watch(srcJS,['jshint']);
+gulp.task('watch',['build'],function(){
+  gulp.watch(srcJS,['jshint','build-js']);
   gulp.watch(srcSass,['build-css']);
-  gulp.watch(srcSass,['build-js']);
+  gulp.watch(srcHTML,['copyHtml']);
 });
 
-
+//Build
+gulp.task('build',['jshint','build-css','build-js','copyHtml']);
 //Deployment
 gulp.task('deploy',['copyHtml']);
+
+
+// create a default task and just log a message
+gulp.task('default',['watch']);
