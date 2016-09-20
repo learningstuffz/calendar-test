@@ -1,7 +1,7 @@
 {
   "name": "calendar_test",
   "version": "0.0.1",
-  "description": "Testing the calendar control!!",
+  "description": "A Custom Event Calendar!!",
   "scripts": {
     "start": "node server.js"
   },
