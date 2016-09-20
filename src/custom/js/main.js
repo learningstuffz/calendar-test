@@ -5,10 +5,10 @@
             var eventsData = [];
             if (typeof (Storage) !== "undefined") {
                 eventsData = JSON.parse(localStorage.getItem("details"));
-                if (eventsData == null) {
+                if (eventsData === null) {
                     eventsData = [];
                 }
-                else if (eventsData.length == undefined) {
+                else if (eventsData.length === undefined) {
                     eventsData = [eventsData];
                 }
             }
@@ -34,10 +34,10 @@ var calendarRefresh=function(){
     var eventsData = [];
             if (typeof (Storage) !== "undefined") {
                 eventsData = JSON.parse(localStorage.getItem("details"));
-                if (eventsData == null) {
+                if (eventsData === null) {
                     eventsData = [];
                 }
-                else if (eventsData.length == undefined) {
+                else if (eventsData.length === undefined) {
                     eventsData = [eventsData];
                 }
             }
@@ -45,7 +45,7 @@ var calendarRefresh=function(){
                 //sorry storage not supported
             }
             $('#calendar').fullCalendar( 'removeEvents');
-            $('#calendar').fullCalendar( 'addEventSource', eventsData)
+            $('#calendar').fullCalendar( 'addEventSource', eventsData);
 };
         function callingAjax(t, u, s, e) {
             $.ajax({
@@ -70,7 +70,7 @@ var calendarRefresh=function(){
 
                     if (obj !== null) {
                         console.log(obj);
-                        if (obj.length != undefined) {
+                        if (obj.length !== undefined) {
                             obj.push({
                                 title: $('#txtEvents').val(),
                                 start: getDate($('#txtDates').val()),
@@ -107,10 +107,10 @@ var calendarRefresh=function(){
         var getDate = function (dt) {
 
             var d = new Date();
-            if (dt!=undefined) {
+            if (dt !== undefined) {
                 d = new Date(dt);
             }
-            var yr = d.getFullYear()
+            var yr = d.getFullYear();
             var mn = d.getMonth() + 1;
             var day = d.getDate();
             var date = yr + "-";
@@ -123,4 +123,4 @@ var calendarRefresh=function(){
             }
             date += day;
             return date;
-        }
+        };
