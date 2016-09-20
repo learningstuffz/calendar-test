@@ -1,12 +1,23 @@
 {
-	"name":"calendar_test",
-	"version":"0.0.1",
-	"description":"Testing the calendar control!!",
-	"scripts": {
+  "name": "calendar_test",
+  "version": "0.0.1",
+  "description": "Testing the calendar control!!",
+  "scripts": {
     "start": "node server.js"
   },
-	"dependencies":{
-		"mime":"~1.2.7",
-		"express": "~4.9.x"
-	}
+  "author": "debu",
+  "license": "MIT",
+  "homepage": "https://github.com/ronyd1/calendar-test",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ronyd1/calendar-test.git"
+  },
+  "dependencies": {
+    "mime": "~1.2.7",
+    "express": "~4.9.x"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-util": "^3.0.7"
+  }
 }
