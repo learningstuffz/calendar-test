@@ -1,0 +1,107 @@
+body{
+	padding: 50px;
+	font:14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+a{
+	color: #00B7FF;
+
+}
+#content{
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+}
+#room {
+	background-color: #ddd;
+	margin-bottom: 1em;
+}
+#messages {
+	width: 690px;
+	height: 300px;
+	overflow: auto;
+	background-color: #eee;
+	margin-bottom: 1em;
+	margin-right: 10px;
+}
+
+#ui-datepicker-div {
+    font-size: 14px;
+}
+
+.mainDiv {
+    padding: 15px 15px 15px 15px;
+    margin-bottom: 4em;
+    width: 65%;
+    margin-left: auto;
+    margin-right: auto;
+    zoom: 1;
+    -webkit-box-shadow: 0px 0px 30px #888;
+    -moz-box-shadow: 0px 0px 30px #888;
+    box-shadow: 0px 0px 30px #888;
+}
+#calendar
+{
+    max-width: 900px;
+    margin: 0 auto;
+    float: right;
+    width: 65%;
+}
+body
+{
+    margin: 40px 10px;
+    padding: 0;
+    font-family: "Lucida Grande" ,Helvetica,Arial,Verdana,sans-serif;
+    font-size: 14px; /*background-color:Maroon*/
+}
+#wrap
+{
+    width: 80%;
+    margin: 0 auto;
+}
+.addReminder
+{
+    position: fixed;
+    zoom: 1;
+    -webkit-box-shadow: 0px 0px 30px #888;
+    -moz-box-shadow: 0px 0px 30px #888;
+    box-shadow: 0px 0px 30px #888;
+    height: 400px;
+    width: 400px;
+    margin: 5px;
+}
+.header
+{
+    margin: 5px;
+}
+.contain
+{
+    margin: 5px;
+}
+input, textarea, keygen, select, button
+{
+    margin: 0em;
+    font: normal normal normal 13.3333330154419px/normal Arial;
+    text-rendering: auto;
+    color: initial;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    padding: 1px 0px;
+    display: inline-block; /* width: 210px; */ /* height: 18px; */
+    padding: 4px;
+    font-size: 13px;
+    line-height: 18px;
+    color: #1B1717;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+#btnAdd
+{
+    cursor:pointer;
+}
