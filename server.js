@@ -6,7 +6,7 @@ var express = require('express');
 var app = express();
 //Stores the cached files
 var cache = {};
-var startPath = 'pages'; 
+var startPath = 'src'; 
 /*Stores the base folder name 
 where the files will be fetched from
 */
@@ -65,7 +65,7 @@ app.all('*',function (request, response) {
 });
 
 app.set('port', (process.env.PORT || 5000));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/'+startPath));
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
