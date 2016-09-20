@@ -54,7 +54,7 @@ function serveStatic(response,cache,absPath){
 
 app.all('*',function (request, response) {
     if (request.url == '/') {
-        filepath = startPath + '/CalendarWelcome.html';
+        filepath = startPath + '/index.html';
     }
     else {
         filepath = startPath + request.url;
