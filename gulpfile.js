@@ -12,6 +12,7 @@ var gulp        = require('gulp'),
     connect     = require('gulp-connect'),
     watch       = require('gulp-watch'),
     argv        = require('yargs').argv,
+    cleanCSS    = require('gulp-clean-css');
     gutil       = require('gulp-util');
 
 /*Constants*/
@@ -27,6 +28,7 @@ var srcSass  =  'src/custom/scss/**/*.scss',
     pbCustom =  'bundle.js' ,
     pbVendor =  'vendor.js',
     pbVCSS   =  'vendor.css',
+    pbCSS    =  'style.css',
     pbVImg   =  'public/css/images'
     pbHTML   =  'public'
     ;
@@ -56,6 +58,9 @@ gulp.task('build-css', function(){
   return  gulp.src(srcSass)
           .pipe(sourcemaps.init())  // Process the original sources
           .pipe(sass())
+          .pipe(concat(pbCSS))
+          .pipe(print())
+          .pipe(argv.type === 'production' ? cleanCSS() : gutil.noop())
           .pipe(sourcemaps.write()) // Add the map to modified source
           .pipe(gulp.dest(pbSass));
 });
@@ -68,9 +73,9 @@ gulp.task('build-v-css', function(){
            '**/*.css'
          ]))
          //Comment it post development
-         //.pipe(print())
+         .pipe(print())
          .pipe(concat(pbVCSS))
-         .pipe(argv.type === 'production' ? uglify() : gutil.noop())
+         .pipe(argv.type === 'production' ? cleanCSS() : gutil.noop())
          .pipe(gulp.dest(pbSass));
 });
 /*Build Javascript*/
@@ -96,7 +101,7 @@ gulp.task('build-v-js',function(){
           '**/*.js'
          ]))
          //Comment it post development
-         //.pipe(print())
+         .pipe(print())
          .pipe(concat(pbVendor))
          .pipe(argv.type === 'production' ? uglify() : gutil.noop())
          //.pipe(sourcemaps.write())
@@ -139,9 +144,7 @@ gulp.task('serve-prod', function() {
 });
 
 //Deployment
-gulp.task('deploy',['build','serve-prod'],function(){
-  console.log(argv.type);
-});
+gulp.task('deploy',['build','serve-prod']);
 
 // create a default task
 gulp.task('default',['build','serve','live-reload','watch']);
