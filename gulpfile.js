@@ -7,14 +7,22 @@ var gulp        = require('gulp'),
     sourcemaps  = require('gulp-sourcemaps'),
     concat      = require('gulp-concat'),
     uglify      = require('gulp-uglify'),
+    order       = require('gulp-order'),
+    print    = require('gulp-print')
     gutil       = require('gulp-util');
 
 /*Constants*/
 var srcSass  =  'src/custom/scss/**/*.scss',
     srcJS    =  'src/custom/js/**/*.js',
     srcHTML  =  'src/*.html',
+    srcVendor=  'src/vendor/js/**/*.js',
+    srcVP    =  'src/vendor/js/',
+    srcVCSS  =  'src/vendor/css/**/*.css',
     pbSass   =  'public/css/',
-    pbJS     =  'public/js'
+    pbJS     =  'public/js',
+    pbCustom =  'bundle.js' ,
+    pbVendor =  'vendor.js',
+    pbVCSS   =  'vendor.css',
     pbHTML   =  'public'
     ;
 
@@ -23,6 +31,8 @@ gulp.task('copyHtml', function() {
   // copy any html files in source/ to public/
   gulp.src(srcHTML).pipe(gulp.dest(pbHTML));
 });
+
+
 
 /*JS Hint task*/
 //configure jshint task
@@ -44,18 +54,45 @@ gulp.task('build-css', function(){
           .pipe(gulp.dest(pbSass));
 });
 
+gulp.task('build-v-css', function(){
+  return gulp.src(srcVCSS)
+         .pipe(sourcemaps.init())
+         .pipe(order([
+           '*ui*',
+           '**/*.css'
+         ]))
+         .pipe(print())
+         .pipe(concat(pbVCSS))
+         .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
+         .pipe(gulp.dest(pbSass));
+});
 /*Build Javascript*/
+//Build custom
 gulp.task('build-js', function(){
   return gulp.src(srcJS)
          .pipe(sourcemaps.init())
-         .pipe(concat('bundle.js'))
+         .pipe(concat(pbCustom))
          //only uglify if gulp is ran with '--type production'
          .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
          .pipe(sourcemaps.write())
          .pipe(gulp.dest(pbJS));
 });
 
-
+gulp.task('build-v-js',function(){
+  return gulp.src(srcVendor)
+         .pipe(sourcemaps.init())
+         .pipe(order([
+          '*moment*',
+          '*jquery.js',
+          '*ui*',
+          '**/*.js'
+         ]))
+         .pipe(print())
+         .pipe(concat(pbVendor))
+         .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
+         //.pipe(sourcemaps.write())
+         .pipe(gulp.dest(pbJS));
+});
 //configure which files to watch and what tasks to run on change
 gulp.task('watch',['build'],function(){
   gulp.watch(srcJS,['jshint','build-js']);
@@ -64,7 +101,7 @@ gulp.task('watch',['build'],function(){
 });
 
 //Build
-gulp.task('build',['jshint','build-css','build-js','copyHtml']);
+gulp.task('build',['jshint','build-css','build-v-css','build-js','build-v-js','copyHtml']);
 //Deployment
 gulp.task('deploy',['copyHtml']);
 
