@@ -8,7 +8,7 @@ var gulp        = require('gulp'),
     concat      = require('gulp-concat'),
     uglify      = require('gulp-uglify'),
     order       = require('gulp-order'),
-    print    = require('gulp-print')
+    print       = require('gulp-print'),
     gutil       = require('gulp-util');
 
 /*Constants*/
@@ -18,11 +18,13 @@ var srcSass  =  'src/custom/scss/**/*.scss',
     srcVendor=  'src/vendor/js/**/*.js',
     srcVP    =  'src/vendor/js/',
     srcVCSS  =  'src/vendor/css/**/*.css',
+    srcVImg  =  'src/vendor/css/images/**/*'
     pbSass   =  'public/css/',
     pbJS     =  'public/js',
     pbCustom =  'bundle.js' ,
     pbVendor =  'vendor.js',
     pbVCSS   =  'vendor.css',
+    pbVImg   =  'public/css/images'
     pbHTML   =  'public'
     ;
 
@@ -30,6 +32,7 @@ var srcSass  =  'src/custom/scss/**/*.scss',
 gulp.task('copyHtml', function() {
   // copy any html files in source/ to public/
   gulp.src(srcHTML).pipe(gulp.dest(pbHTML));
+  gulp.src(srcVImg).pipe(gulp.dest(pbVImg));
 });
 
 
@@ -61,7 +64,7 @@ gulp.task('build-v-css', function(){
            '*ui*',
            '**/*.css'
          ]))
-         .pipe(print())
+         .pipe(print())//Comment it post development
          .pipe(concat(pbVCSS))
          .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
          .pipe(gulp.dest(pbSass));
@@ -87,12 +90,14 @@ gulp.task('build-v-js',function(){
           '*ui*',
           '**/*.js'
          ]))
-         .pipe(print())
+         .pipe(print())//Comment it post development
          .pipe(concat(pbVendor))
          .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
          //.pipe(sourcemaps.write())
          .pipe(gulp.dest(pbJS));
 });
+
+
 //configure which files to watch and what tasks to run on change
 gulp.task('watch',['build'],function(){
   gulp.watch(srcJS,['jshint','build-js']);
