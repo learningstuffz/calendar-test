@@ -9,6 +9,9 @@ var gulp        = require('gulp'),
     uglify      = require('gulp-uglify'),
     order       = require('gulp-order'),
     print       = require('gulp-print'),
+    connect     = require('gulp-connect'),
+    watch       = require('gulp-watch'),
+    argv        = require('yargs'),
     gutil       = require('gulp-util');
 
 /*Constants*/
@@ -64,9 +67,10 @@ gulp.task('build-v-css', function(){
            '*ui*',
            '**/*.css'
          ]))
-         .pipe(print())//Comment it post development
+         //Comment it post development
+         //.pipe(print())
          .pipe(concat(pbVCSS))
-         .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
+         .pipe(argv.type === 'production' ? uglify() : gutil.noop())
          .pipe(gulp.dest(pbSass));
 });
 /*Build Javascript*/
@@ -76,7 +80,7 @@ gulp.task('build-js', function(){
          .pipe(sourcemaps.init())
          .pipe(concat(pbCustom))
          //only uglify if gulp is ran with '--type production'
-         .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
+         .pipe(argv.type === 'production' ? uglify() : gutil.noop())
          .pipe(sourcemaps.write())
          .pipe(gulp.dest(pbJS));
 });
@@ -90,7 +94,8 @@ gulp.task('build-v-js',function(){
           '*ui*',
           '**/*.js'
          ]))
-         .pipe(print())//Comment it post development
+         //Comment it post development
+         //.pipe(print())
          .pipe(concat(pbVendor))
          .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
          //.pipe(sourcemaps.write())
@@ -99,7 +104,7 @@ gulp.task('build-v-js',function(){
 
 
 //configure which files to watch and what tasks to run on change
-gulp.task('watch',['build'],function(){
+gulp.task('watch',function(){
   gulp.watch(srcJS,['jshint','build-js']);
   gulp.watch(srcSass,['build-css']);
   gulp.watch(srcHTML,['copyHtml']);
@@ -107,9 +112,33 @@ gulp.task('watch',['build'],function(){
 
 //Build
 gulp.task('build',['jshint','build-css','build-v-css','build-js','build-v-js','copyHtml']);
+
+//Dev serving
+gulp.task('serve',function(){
+  connect.server({
+    root: [pbHTML],
+    livereload: true
+  });
+});
+
+//Livereload
+gulp.task('live-reload',function(){
+  return gulp.src([srcJS,srcSass,srcHTML])
+      .pipe(watch([srcJS,srcSass,srcHTML]))
+      .pipe(connect.reload());
+});
+
+//Prod Serving
+gulp.task('serve-prod', function() {
+  connect.server({
+    root: [pbHTML],
+    port: process.env.PORT || 5000, // localhost:5000
+    livereload: false
+  });
+});
+
 //Deployment
-gulp.task('deploy',['copyHtml']);
+gulp.task('deploy',['build','serve-prod']);
 
-
-// create a default task and just log a message
-gulp.task('default',['watch']);
+// create a default task
+gulp.task('default',['build','serve','live-reload','watch']);
