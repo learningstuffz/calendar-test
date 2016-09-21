@@ -59,7 +59,7 @@ gulp.task('build-css', function(){
           .pipe(sourcemaps.init())  // Process the original sources
           .pipe(sass())
           .pipe(concat(pbCSS))
-          .pipe(print())
+          //.pipe(print())
           .pipe(argv.type === 'production' ? cleanCSS() : gutil.noop())
           .pipe(sourcemaps.write()) // Add the map to modified source
           .pipe(gulp.dest(pbSass));
@@ -73,7 +73,7 @@ gulp.task('build-v-css', function(){
            '**/*.css'
          ]))
          //Comment it post development
-         .pipe(print())
+         //.pipe(print())
          .pipe(concat(pbVCSS))
          .pipe(argv.type === 'production' ? cleanCSS() : gutil.noop())
          .pipe(gulp.dest(pbSass));
@@ -101,7 +101,7 @@ gulp.task('build-v-js',function(){
           '**/*.js'
          ]))
          //Comment it post development
-         .pipe(print())
+         //.pipe(print())
          .pipe(concat(pbVendor))
          .pipe(argv.type === 'production' ? uglify() : gutil.noop())
          //.pipe(sourcemaps.write())
