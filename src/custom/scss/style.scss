@@ -1,5 +1,6 @@
 @import "variables";
 body {
+    background: $primaryColor;
     padding: $padding-all;
     font: $font-size "Lucida Grande", Helvetica, Arial, sans-serif;
 }
