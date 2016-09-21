@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A Custom Event Calendar!!",
   "scripts": {
-    "start": "gulp serve-prod --type production"
+    "start": "gulp deploy --type production"
   },
   "author": "debu",
   "license": "MIT",

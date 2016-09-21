@@ -11,7 +11,7 @@ var gulp        = require('gulp'),
     print       = require('gulp-print'),
     connect     = require('gulp-connect'),
     watch       = require('gulp-watch'),
-    argv        = require('yargs'),
+    argv        = require('yargs').argv,
     gutil       = require('gulp-util');
 
 /*Constants*/
@@ -76,6 +76,7 @@ gulp.task('build-v-css', function(){
 /*Build Javascript*/
 //Build custom
 gulp.task('build-js', function(){
+
   return gulp.src(srcJS)
          .pipe(sourcemaps.init())
          .pipe(concat(pbCustom))
@@ -97,7 +98,7 @@ gulp.task('build-v-js',function(){
          //Comment it post development
          //.pipe(print())
          .pipe(concat(pbVendor))
-         .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
+         .pipe(argv.type === 'production' ? uglify() : gutil.noop())
          //.pipe(sourcemaps.write())
          .pipe(gulp.dest(pbJS));
 });
@@ -138,7 +139,9 @@ gulp.task('serve-prod', function() {
 });
 
 //Deployment
-gulp.task('deploy',['build','serve-prod']);
+gulp.task('deploy',['build','serve-prod'],function(){
+  console.log(argv.type);
+});
 
 // create a default task
 gulp.task('default',['build','serve','live-reload','watch']);
